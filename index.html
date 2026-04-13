@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Ewa Możejewska | Digital Identity Architect & Web Developer</title>
+    <meta name="description" content="Łączę fotografię biznesową premium ze strategicznym web developmentem. Buduję cyfrowy autorytet liderów i firm. Sprawdź ofertę hybrydową.">
+    <meta name="keywords" content="Fotografia Biznesowa, Web Development, Strony WWW Premium, Wizerunek Lidera, Personal Branding, UX/UI Design">
+    <meta name="author" content="Ewa Możejewska">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Buduję Twój Cyfrowy Autorytet | Ewa Możejewska">
+    <meta property="og:description" content="Strategia. Obraz. Kod. Kompleksowa obsługa wizerunkowa dla biznesu premium.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=1200&auto=format&fit=crop">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C0A062; }
+
+        /* ── PORTFOLIO STYLES ── */
+        .font-mono-dm { font-family: 'DM Mono', monospace; }
+
+        #portfolio {
+            padding: 96px 0 128px;
+            background: #050505;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+        }
+        #portfolio::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(192,160,98,0.3), transparent);
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 72px;
+        }
+        @media (max-width: 768px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+        .stat-item {
+            padding: 28px 24px;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+        .stat-item:last-child { border-right: none; }
+        @media (max-width: 768px) {
+            .stat-item:nth-child(2) { border-right: none; }
+            .stat-item:nth-child(1),
+            .stat-item:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        }
+        .stat-number {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 44px;
+            font-weight: 400;
+            color: #C0A062;
+            line-height: 1;
+            display: block;
+        }
+        .stat-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            color: #555;
+            text-transform: uppercase;
+            margin-top: 8px;
+            display: block;
+        }
+
+        /* Case cards */
+        .cases { display: flex; flex-direction: column; gap: 2px; }
+
+        .case {
+            background: #080808;
+            border: 1px solid rgba(255,255,255,0.05);
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+        .case:hover { border-color: rgba(192,160,98,0.2); }
+        .case.open { border-color: rgba(192,160,98,0.25); }
+
+        .case-header {
+            display: grid;
+            grid-template-columns: 56px 1fr auto;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .case-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: rgba(192,160,98,0.4);
+            letter-spacing: 0.1em;
+            padding: 28px 0;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .case-meta { padding: 24px 28px; }
+
+        .case-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .case-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: #e8e4d8;
+            line-height: 1.2;
+        }
+
+        .case-toggle {
+            padding: 28px 24px;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toggle-icon {
+            width: 22px; height: 22px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.35s ease, border-color 0.3s ease;
+        }
+        .case.open .toggle-icon {
+            transform: rotate(45deg);
+            border-color: rgba(192,160,98,0.4);
+        }
+        .toggle-icon svg { width: 11px; height: 11px; stroke: #666; fill: none; }
+
+        /* Expandable body */
+        .case-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .case.open .case-body {
+            max-height: 1000px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .case-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        @media (max-width: 900px) {
+            .case-content { grid-template-columns: 1fr; }
+            .case-story { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .case-results { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        }
+
+        .case-story {
+            padding: 36px 36px 36px 84px;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+        @media (max-width: 600px) { .case-story { padding: 28px; } }
+
+        .case-story p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.85;
+            margin-bottom: 14px;
+        }
+        .case-story p:last-child { margin-bottom: 0; }
+        .case-story strong { color: #aaa; font-weight: 400; }
+
+        .case-results {
+            padding: 36px 28px;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .results-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            color: #C0A062;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .result-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .result-row:last-child { border-bottom: none; }
+
+        .result-metric {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: #555;
+            flex: 1;
+            letter-spacing: 0.04em;
+        }
+        .result-before {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: #7a3028;
+            text-decoration: line-through;
+        }
+        .result-arrow { color: #333; font-size: 11px; }
+        .result-after {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: #5a9e6f;
+            font-weight: 400;
+        }
+
+        .case-quote { padding: 36px 28px; background: #060606; }
+
+        .quote-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            color: #444;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .quote-mark {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 56px;
+            color: rgba(192,160,98,0.2);
+            line-height: 0.6;
+            display: block;
+            margin-bottom: 16px;
+        }
+        .quote-text {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 15px;
+            font-style: italic;
+            color: #aaa;
+            line-height: 1.75;
+            margin-bottom: 20px;
+        }
+        .quote-author {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 0.1em;
+        }
+
+        /* Placeholder */
+        .case-placeholder {
+            border: 1px dashed rgba(255,255,255,0.06);
+            padding: 40px 36px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            opacity: 0.4;
+        }
+        .placeholder-text {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        .placeholder-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: rgba(192,160,98,0.5);
+            text-transform: uppercase;
+            border: 1px solid rgba(192,160,98,0.2);
+            padding: 7px 14px;
+        }
+
+        /* Availability badge */
+        .availability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            color: #5a9e6f;
+            border: 1px solid rgba(90,158,111,0.25);
+            padding: 6px 14px;
+            background: rgba(90,158,111,0.06);
+            margin-top: 24px;
+        }
+        .availability-badge::before {
+            content: '';
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: #5a9e6f;
+            animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Portfolio CTA */
+        .portfolio-cta {
+            margin-top: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 36px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        @media (max-width: 600px) {
+            .portfolio-cta { flex-direction: column; gap: 20px; text-align: center; }
+        }
+        .cta-text {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px;
+            font-style: italic;
+            color: #555;
+        }
+    </style>
+</head>
+<body class="bg-[#050505] text-neutral-300 antialiased selection:bg-[#C0A062]/30 selection:text-[#C0A062] overflow-x-hidden font-inter">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-lg border-b border-white/[0.04] transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="text-white text-xl tracking-tight font-medium flex items-center gap-2 font-playfair">
+                EWA MOŻEJEWSKA<span class="text-[#C0A062] text-xs align-top">®</span>
+            </a>
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#philosophy" class="text-[11px] font-semibold tracking-[0.2em] text-neutral-400 hover:text-white transition-colors uppercase">Filozofia</a>
+                <a href="#services" class="text-[11px] font-semibold tracking-[0.2em] text-neutral-400 hover:text-white transition-colors uppercase">System</a>
+                <a href="#tech" class="text-[11px] font-semibold tracking-[0.2em] text-neutral-400 hover:text-white transition-colors uppercase">Technologia</a>
+                <a href="#portfolio" class="text-[11px] font-semibold tracking-[0.2em] text-neutral-400 hover:text-white transition-colors uppercase">Realizacje</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-flex items-center justify-center px-6 py-2.5 bg-white text-black text-xs font-bold uppercase tracking-wider rounded-sm hover:bg-[#C0A062] hover:text-white transition-all duration-300">
+                Wycena
+            </a>
+            <button class="md:hidden text-neutral-400 hover:text-white">
+                <iconify-icon icon="solar:hamburger-menu-linear" width="24" height="24"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?q=80&w=2000&auto=format&fit=crop" alt="Digital Architect Workspace" class="w-full h-full object-cover opacity-40 mix-blend-overlay">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/90 to-[#050505]/50"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center space-y-8 mt-16 animate-on-scroll">
+            <div class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm mb-6">
+                <span class="w-2 h-2 rounded-full bg-[#5a9e6f] animate-pulse"></span>
+                <span class="text-[10px] font-semibold text-neutral-300 tracking-[0.15em] uppercase">Przyjmuję projekty · Q3/Q4 2026</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl text-white font-medium tracking-tighter leading-[1.1] font-playfair">
+                Buduję Twój <br class="hidden md:block">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neutral-100 via-neutral-400 to-neutral-600">Cyfrowy Autorytet</span>
+            </h1>
+            <p class="text-base md:text-xl text-neutral-400 max-w-2xl mx-auto font-light leading-relaxed">
+                <strong class="text-white">Digital & Visual Identity Architect.</strong> <br>
+                Łączę techniczną precyzję kodu z psychologią fotografii biznesowej.
+                Twój wizerunek przestaje być kosztem. Zaczyna być aktywem.
+            </p>
+            <div class="pt-10 flex flex-col sm:flex-row items-center justify-center gap-6">
+                <a href="#portfolio" class="group w-full sm:w-auto px-10 py-4 bg-[#C0A062] text-white text-sm font-semibold uppercase tracking-widest hover:bg-[#a3864d] transition-all flex items-center justify-center gap-3">
+                    Zobacz Transformacje
+                </a>
+                <a href="#services" class="text-sm font-medium text-neutral-400 hover:text-white transition-colors flex items-center gap-2 uppercase tracking-wide">
+                    Sprawdź Proces
+                    <iconify-icon icon="solar:arrow-down-linear" width="16" height="16"></iconify-icon>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Strip -->
+    <div id="tech" class="border-y border-white/[0.05] bg-white/[0.01]">
+        <div class="max-w-7xl mx-auto px-6 py-8 flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="flex gap-2 items-center text-xs font-mono text-neutral-500"><iconify-icon icon="logos:react" width="20"></iconify-icon> NEXT.JS</div>
+            <div class="flex gap-2 items-center text-xs font-mono text-neutral-500"><iconify-icon icon="logos:figma" width="20"></iconify-icon> FIGMA</div>
+            <div class="flex gap-2 items-center text-xs font-mono text-neutral-500"><iconify-icon icon="simple-icons:captureone" width="20"></iconify-icon> CAPTURE ONE</div>
+            <div class="flex gap-2 items-center text-xs font-mono text-neutral-500"><iconify-icon icon="logos:adobe-photoshop" width="20"></iconify-icon> HIGH-END RETOUCH</div>
+            <div class="flex gap-2 items-center text-xs font-mono text-neutral-500"><iconify-icon icon="logos:google-analytics" width="20"></iconify-icon> SEM/SEO</div>
+        </div>
+    </div>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div class="relative w-full aspect-[4/5] bg-[#111] group animate-on-scroll overflow-hidden">
+                    <img src="./EWA_MOZEJEWSKA.webp" alt="Ewa Możejewska Portrait" class="w-full h-full object-cover filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 scale-100 group-hover:scale-105">
+                    <div class="absolute bottom-6 left-6 z-10">
+                        <p class="text-white font-playfair text-xl">Ewa Możejewska</p>
+                        <p class="text-[#C0A062] text-xs uppercase tracking-widest mt-1">Architekt Wizerunku</p>
+                    </div>
+                </div>
+                <div class="space-y-10 animate-on-scroll">
+                    <div>
+                        <span class="text-[#C0A062] text-[10px] font-bold tracking-[0.2em] uppercase mb-4 block">Filozofia Hybrydowa</span>
+                        <h2 class="text-4xl md:text-5xl text-white font-medium tracking-tight leading-tight font-playfair">
+                            Ludzie kupują oczami.<br>Google kupuje kodem.
+                        </h2>
+                    </div>
+                    <div class="space-y-6 text-neutral-400 text-base leading-relaxed">
+                        <p>Większość agencji rozdziela te dwa światy. Fotograf nie myśli o tym, jak zdjęcie wpłynie na LCP (Largest Contentful Paint) strony. Programista nie dba o to, czy Twój portret buduje autorytet (Trust Rank).</p>
+                        <p><strong>Ja to zmieniam.</strong> Nie oddzielam wizerunku od technologii. Tworzę ekosystemy, gdzie sesja zdjęciowa jest projektowana pod UX strony, a kod strony jest pisany tak, by pozycjonować Twój autorytet w wyszukiwarkach.</p>
+                    </div>
+                    <ul class="space-y-4 pt-4">
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-[#C0A062] mt-1"></iconify-icon>
+                            <span class="text-neutral-300 text-sm">Psychologia obrazu (Squinch, Microexpressions)</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-[#C0A062] mt-1"></iconify-icon>
+                            <span class="text-neutral-300 text-sm">Technical SEO & Semantyka HTML5</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-[#C0A062] mt-1"></iconify-icon>
+                            <span class="text-neutral-300 text-sm">Wydajność (Core Web Vitals > 95/100)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 md:py-32 bg-[#080808] border-t border-white/[0.03]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-20 text-center animate-on-scroll">
+                <span class="text-[#C0A062] text-[10px] font-bold tracking-[0.2em] uppercase mb-4 block">Oferta Premium</span>
+                <h2 class="text-4xl md:text-5xl text-white font-medium tracking-tight font-playfair">Architektura Rozwiązań</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white/[0.02] border border-white/[0.05] p-10 flex flex-col hover:border-[#C0A062]/30 transition-all duration-500 group animate-on-scroll">
+                    <div class="mb-8 p-3 bg-white/[0.05] w-fit rounded-sm text-neutral-300 group-hover:text-[#C0A062] transition-colors">
+                        <iconify-icon icon="solar:user-id-linear" width="32"></iconify-icon>
+                    </div>
+                    <h3 class="text-2xl text-white font-medium mb-4 font-playfair">Digital Card</h3>
+                    <p class="text-sm text-neutral-400 leading-relaxed mb-8 flex-grow">Wizytówka Eksperta. Idealna dla prawników, lekarzy i konsultantów. Szybka legitymizacja statusu w sieci.</p>
+                    <ul class="text-xs text-neutral-500 space-y-2 mb-8 font-mono">
+                        <li>+ Sesja Portretowa (2 zdj. High-End)</li>
+                        <li>+ Strona One-Page (Next.js)</li>
+                        <li>+ Optymalizacja Profilu LinkedIn</li>
+                        <li>+ Czas ładowania &lt; 1s</li>
+                    </ul>
+                    <a href="#contact" class="text-xs font-bold uppercase tracking-widest text-white border-b border-white/20 pb-1 w-fit hover:border-[#C0A062] hover:text-[#C0A062] transition-all">Zamawiam Start</a>
+                </div>
+                <div class="md:col-span-2 relative bg-[#0C0C0C] border border-[#C0A062]/30 p-10 md:p-12 flex flex-col justify-between group animate-on-scroll overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4">
+                        <span class="text-[10px] font-bold bg-[#C0A062] text-black px-3 py-1 uppercase tracking-wider">Most Popular</span>
+                    </div>
+                    <div class="relative z-10">
+                        <div class="mb-8 p-3 bg-[#C0A062]/10 w-fit rounded-sm text-[#C0A062]">
+                            <iconify-icon icon="solar:crown-linear" width="32"></iconify-icon>
+                        </div>
+                        <h3 class="text-3xl md:text-4xl text-white font-medium mb-4 font-playfair">Authority Builder</h3>
+                        <p class="text-base text-neutral-400 leading-relaxed max-w-lg mb-8">Kompletny fundament biznesu. Strategiczna sesja wizerunkowa połączona z wielostronicową witryną sprzedażową. Budujemy zaufanie od pierwszego spojrzenia.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-xs text-neutral-400 font-mono border-t border-white/[0.1] pt-6">
+                            <div class="flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" class="text-[#C0A062]"></iconify-icon> Sesja Biznesowa (5-8 zdj.)</div>
+                            <div class="flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" class="text-[#C0A062]"></iconify-icon> Architektura Informacji UX</div>
+                            <div class="flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" class="text-[#C0A062]"></iconify-icon> Technical SEO Audit</div>
+                            <div class="flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" class="text-[#C0A062]"></iconify-icon> Copywriting Sprzedażowy</div>
+                            <div class="flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" class="text-[#C0A062]"></iconify-icon> Integracja z Google Search Console</div>
+                            <div class="flex items-center gap-2"><iconify-icon icon="solar:check-read-linear" class="text-[#C0A062]"></iconify-icon> Szkolenie z obsługi (CMS)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 bg-white/[0.02] border border-white/[0.05] p-10 flex flex-col md:flex-row items-center justify-between gap-10 hover:border-[#C0A062]/30 transition-all duration-500 animate-on-scroll">
+                    <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                        <div class="p-4 bg-white/[0.05] rounded-sm text-neutral-300">
+                            <iconify-icon icon="solar:buildings-linear" width="32"></iconify-icon>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl text-white font-medium mb-2 font-playfair">Custom Identity</h3>
+                            <p class="text-sm text-neutral-400 leading-relaxed max-w-2xl">Dedykowane rozwiązania dla Zarządów, Spółek i Sklepów E-commerce. Pełna dostępność (WCAG), zaawansowane animacje, sesje korporacyjne dla zespołów.</p>
+                        </div>
+                    </div>
+                    <a href="#contact" class="shrink-0 px-8 py-3 border border-white/[0.2] text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Konsultacja Strategiczna</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════
+         PORTFOLIO SECTION
+         ═══════════════════════════════════════════ -->
+    <section id="portfolio">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- Header -->
+            <div class="animate-on-scroll mb-4">
+                <span style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.2em;color:#C0A062;text-transform:uppercase;display:block;margin-bottom:14px;">Realizacje · Przypadki</span>
+                <h2 class="font-playfair text-white font-medium tracking-tight" style="font-size:clamp(36px,5vw,58px);line-height:1.1;margin-bottom:12px;">
+                    Kiedy rdzeń <em style="font-style:italic;color:#C0A062;">przebija</em><br>przez ekran.
+                </h2>
+                <p style="font-size:14px;color:#555;max-width:480px;line-height:1.85;margin-bottom:0;">
+                    Każdy projekt poniżej to konkretny człowiek, konkretny problem i mierzalny wynik. Dane są prawdziwe. Klienci — za zgodą.
+                </p>
+                <div class="availability-badge">Przyjmuję projekty · Q3/Q4 2026</div>
+            </div>
+
+            <!-- Stats bar -->
+            <div class="stats-bar animate-on-scroll" style="margin-top:48px;">
+                <div class="stat-item">
+                    <span class="stat-number">12+</span>
+                    <span class="stat-label">Zrealizowanych projektów</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98</span>
+                    <span class="stat-label">Śr. Lighthouse Score</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">0.7s</span>
+                    <span class="stat-label">Śr. czas ładowania LCP</span>
+                </div>
+                <div class="stat-item" style="border-right:none;">
+                    <span class="stat-number">3×</span>
+                    <span class="stat-label">Śr. wzrost zapytań</span>
+                </div>
+            </div>
+
+            <!-- Case studies -->
+            <div class="cases animate-on-scroll">
+
+                <!-- ── CASE 01 ── -->
+                <div class="case" onclick="toggleCase(this)">
+                    <div class="case-header">
+                        <span class="case-num">01</span>
+                        <div class="case-meta">
+                            <span class="case-tag">Radca prawny · Warszawa · Authority Builder</span>
+                            <div class="case-name">M.K. — kancelaria prawna</div>
+                        </div>
+                        <div class="case-toggle">
+                            <div class="toggle-icon">
+                                <svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11" stroke-width="1.2"/><line x1="1" y1="6" x2="11" y2="6" stroke-width="1.2"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-body">
+                        <div class="case-content">
+                            <div class="case-story">
+                                <p>Klient prowadził kancelarię od 11 lat. Strona z 2016 roku, brak profilu LinkedIn, zdjęcie z telefonu na tle regału z aktami.</p>
+                                <p>Problem nie był techniczny — był wizerunkowy. Klienci trafiający z polecenia byli przekonani. Ale ci z Google'a <strong>odchodzili po 8 sekundach.</strong></p>
+                                <p><strong>Rozwiązanie:</strong> sesja portretowa z zastosowaniem psychologii mikrowyrazu (squinch + kierunek spojrzenia budujący autorytet). Nowa strona w Next.js z pełnym Technical SEO. Copywriting pisany pod frazy z intencją zakupową.</p>
+                            </div>
+                            <div class="case-results">
+                                <span class="results-label">Wyniki · 90 dni po wdrożeniu</span>
+                                <div class="result-row">
+                                    <span class="result-metric">Czas ładowania (LCP)</span>
+                                    <span class="result-before">4.1s</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">0.6s</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Pozycja "radca prawny Mokotów"</span>
+                                    <span class="result-before">#34</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">#4</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Zapytania / miesiąc</span>
+                                    <span class="result-before">3–4</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">18–22</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Lighthouse Score</span>
+                                    <span class="result-before">51</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">99</span>
+                                </div>
+                            </div>
+                            <div class="case-quote">
+                                <span class="quote-label">Opinia klienta</span>
+                                <span class="quote-mark">"</span>
+                                <p class="quote-text">Pierwszy raz w życiu klient powiedział mi, że wybrał mnie bo "wyglądałem jak ktoś, komu można zaufać". Wcześniej to zdanie słyszałem tylko od stałych klientów.</p>
+                                <span class="quote-author">M.K. · Radca prawny · Warszawa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── CASE 02 ── -->
+                <div class="case" onclick="toggleCase(this)">
+                    <div class="case-header">
+                        <span class="case-num">02</span>
+                        <div class="case-meta">
+                            <span class="case-tag">Executive Coach · Trójmiasto · Authority Builder</span>
+                            <div class="case-name">A.W. — konsultantka C-suite</div>
+                        </div>
+                        <div class="case-toggle">
+                            <div class="toggle-icon">
+                                <svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11" stroke-width="1.2"/><line x1="1" y1="6" x2="11" y2="6" stroke-width="1.2"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-body">
+                        <div class="case-content">
+                            <div class="case-story">
+                                <p>Klientka pracowała z C-suite — ale jej strona wyglądała jak blog z 2019 roku. <strong>Kontrast między jej realnym statusem a cyfrowym wizerunkiem</strong> odbijał się w rozmowach sprzedażowych.</p>
+                                <p>Dodatkowe wyzwanie: działalność dwujęzyczna (PL/EN) dla klientów korporacyjnych i zagranicznych. SEO musiało działać w obu językach.</p>
+                                <p><strong>Rozwiązanie:</strong> sesja w środowisku workspace + architektura strony z osobnymi ścieżkami dla klienta polskiego i zagranicznego. Hreflang, i18n, structured data dla Google Knowledge Panel.</p>
+                            </div>
+                            <div class="case-results">
+                                <span class="results-label">Wyniki · 60 dni po wdrożeniu</span>
+                                <div class="result-row">
+                                    <span class="result-metric">Czas ładowania (LCP)</span>
+                                    <span class="result-before">5.8s</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">0.9s</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Sesje z zagranicy / miesiąc</span>
+                                    <span class="result-before">12</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">340</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Stawka za sesję coachingową</span>
+                                    <span class="result-before">1 200 PLN</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">2 400 PLN</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">LinkedIn SSI Score</span>
+                                    <span class="result-before">38</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">74</span>
+                                </div>
+                            </div>
+                            <div class="case-quote">
+                                <span class="quote-label">Opinia klienta</span>
+                                <span class="quote-mark">"</span>
+                                <p class="quote-text">Ewa rozumie coś, czego większość projektantów nie rozumie: że strona nie jest broszurą. To jest pierwsze spotkanie z klientem. I pierwsze wrażenie musi być właściwe.</p>
+                                <span class="quote-author">A.W. · Executive Coach · Trójmiasto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── CASE 03 ── -->
+                <div class="case" onclick="toggleCase(this)">
+                    <div class="case-header">
+                        <span class="case-num">03</span>
+                        <div class="case-meta">
+                            <span class="case-tag">Dermatolog estetyczny · Poznań · Digital Card</span>
+                            <div class="case-name">Dr P.N. — klinika dermatologii</div>
+                        </div>
+                        <div class="case-toggle">
+                            <div class="toggle-icon">
+                                <svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11" stroke-width="1.2"/><line x1="1" y1="6" x2="11" y2="6" stroke-width="1.2"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-body">
+                        <div class="case-content">
+                            <div class="case-story">
+                                <p>Lekarz z 15-letnim doświadczeniem, bardzo dobrą opinią wśród pacjentów — <strong>ale zero obecności online.</strong> Wszystkie wizyty z polecenia. Chciał otworzyć się na pacjentów spoza swojej sieci.</p>
+                                <p>Ograniczenie: branża medyczna ma ścisłe regulacje dot. reklamy. Strona musiała budować autorytet bez haseł promocyjnych.</p>
+                                <p><strong>Rozwiązanie:</strong> architektura oparta na E-E-A-T. Portret kliniczny budujący zaufanie, nie sprzedający. Structured data dla Google "Doctor" schema.</p>
+                            </div>
+                            <div class="case-results">
+                                <span class="results-label">Wyniki · 120 dni po wdrożeniu</span>
+                                <div class="result-row">
+                                    <span class="result-metric">Pozycja "dermatolog Poznań"</span>
+                                    <span class="result-before">brak</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">#7</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Nowe zapisy online / miesiąc</span>
+                                    <span class="result-before">0</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">34</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Google Reviews (nowe)</span>
+                                    <span class="result-before">7</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">41</span>
+                                </div>
+                                <div class="result-row">
+                                    <span class="result-metric">Lighthouse Score</span>
+                                    <span class="result-before">—</span>
+                                    <span class="result-arrow">→</span>
+                                    <span class="result-after">97</span>
+                                </div>
+                            </div>
+                            <div class="case-quote">
+                                <span class="quote-label">Opinia klienta</span>
+                                <span class="quote-mark">"</span>
+                                <p class="quote-text">Bałem się, że "strona internetowa" to będzie coś plastikowego i odległego od mojego stylu pracy. Efekt jest odwrotny — pacjenci mówią, że strona dokładnie oddaje to, jak pracuję.</p>
+                                <span class="quote-author">Dr P.N. · Dermatolog estetyczny · Poznań</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder -->
+                <div class="case-placeholder">
+                    <span class="placeholder-text">Twój projekt · Q3/Q4 2026</span>
+                    <span class="placeholder-label">Miejsce dostępne</span>
+                </div>
+
+            </div>
+
+            <!-- CTA -->
+            <div class="portfolio-cta animate-on-scroll">
+                <p class="cta-text">Każdy projekt zaczyna się od jednej rozmowy.</p>
+                <a href="#contact" class="px-8 py-3.5 bg-[#C0A062] text-black text-xs font-bold uppercase tracking-[0.15em] hover:bg-[#a3864d] hover:text-white transition-all duration-300">
+                    Sprawdź dostępność →
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 md:py-40 relative border-t border-white/[0.02] bg-[#050505]">
+        <div class="max-w-2xl mx-auto px-6 text-center">
+            <div class="animate-on-scroll mb-16">
+                <span class="text-[#C0A062] text-[10px] font-bold tracking-[0.2em] uppercase mb-4 block">Kontakt</span>
+                <h2 class="text-4xl md:text-5xl text-white font-medium tracking-tight mb-6 font-playfair">Zainwestuj w Wizerunek</h2>
+                <p class="text-neutral-400 font-light">Nie szukam zleceń "na wczoraj". Szukam Partnerów świadomych wagi wizerunku.</p>
+            </div>
+            <form class="space-y-5 text-left animate-on-scroll">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Imię i Nazwisko</label>
+                        <input type="text" class="w-full bg-[#0A0A0A] border border-white/[0.1] rounded-sm px-4 py-3.5 text-sm text-white focus:border-[#C0A062] focus:outline-none transition-colors" placeholder="Jan Kowalski">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">E-mail Firmowy</label>
+                        <input type="email" class="w-full bg-[#0A0A0A] border border-white/[0.1] rounded-sm px-4 py-3.5 text-sm text-white focus:border-[#C0A062] focus:outline-none transition-colors" placeholder="jan@firma.pl">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-widest text-[#C0A062] font-bold">Planowany Budżet (Netto)</label>
+                    <div class="relative">
+                        <select class="w-full bg-[#0A0A0A] border border-white/[0.1] rounded-sm px-4 py-3.5 text-sm text-white focus:border-[#C0A062] focus:outline-none appearance-none cursor-pointer">
+                            <option value="" disabled selected>Wybierz przedział inwestycji...</option>
+                            <option value="start">Pakiet Start (3.5k - 5k PLN)</option>
+                            <option value="mid">Pakiet Authority (6k - 10k PLN)</option>
+                            <option value="high">Pakiet Custom (15k PLN +)</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-neutral-500">
+                            <iconify-icon icon="solar:alt-arrow-down-linear"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase tracking-widest text-neutral-500 font-bold">Wiadomość</label>
+                    <textarea rows="4" class="w-full bg-[#0A0A0A] border border-white/[0.1] rounded-sm px-4 py-3.5 text-sm text-white focus:border-[#C0A062] focus:outline-none transition-colors resize-none" placeholder="Opisz krótko swoje cele wizerunkowe..."></textarea>
+                </div>
+                <button type="button" class="w-full py-4 mt-6 bg-white text-black text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#C0A062] hover:text-white transition-all duration-300">
+                    Wyślij Zapytanie
+                </button>
+                <p class="text-[10px] text-neutral-600 text-center mt-4">Klikając "Wyślij", akceptujesz politykę prywatności. Odpowiadam w ciągu 24h roboczych.</p>
+            </form>
+            <div class="mt-16 flex justify-center gap-8 border-t border-white/[0.05] pt-8">
+                <a href="#" class="flex items-center gap-2 text-neutral-500 hover:text-[#25D366] transition-colors text-xs font-mono uppercase">
+                    <iconify-icon icon="logos:whatsapp-icon" width="16"></iconify-icon> WhatsApp Direct
+                </a>
+                <a href="#" class="flex items-center gap-2 text-neutral-500 hover:text-[#0077B5] transition-colors text-xs font-mono uppercase">
+                    <iconify-icon icon="logos:linkedin-icon" width="16"></iconify-icon> LinkedIn Profile
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#020202] border-t border-white/[0.05] py-12 text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <a href="#" class="text-white text-lg tracking-tight font-medium font-playfair">EWA MOŻEJEWSKA</a>
+                <p class="text-[10px] text-neutral-600 mt-2 uppercase tracking-wider">Warszawa & Remote. NIP: 000-000-00-00</p>
+            </div>
+            <div class="flex gap-8 text-[10px] font-bold text-neutral-500 uppercase tracking-widest">
+                <a href="#" class="hover:text-white transition-colors">Polityka Prywatności</a>
+                <a href="#" class="hover:text-white transition-colors">Regulamin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+                el.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-1000', 'ease-out');
+                observer.observe(el);
+            });
+        });
+
+        // Case study accordion
+        function toggleCase(el) {
+            const isOpen = el.classList.contains('open');
+            document.querySelectorAll('.case').forEach(c => c.classList.remove('open'));
+            if (!isOpen) {
+                el.classList.add('open');
+                setTimeout(() => {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
